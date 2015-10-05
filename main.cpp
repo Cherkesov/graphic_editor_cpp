@@ -11,14 +11,21 @@
 #include <iostream>
 
 #include "TriangleFigure.h"
+#include "RectangleFigure.h"
 
 using namespace std;
 
 TriangleFigure *triangleFigure1 = new TriangleFigure(
-        new Point(0.1f, -0.6f),
-        new Point(0.7f, -0.6f),
-        new Point(0.4f, -0.1f),
+        new Vector2(0.1f, -0.6f),
+        new Vector2(0.7f, -0.6f),
+        new Vector2(0.4f, -0.1f),
         new Color(0.0f, 0.0f, 1.0f)
+);
+
+RectangleFigure *rectangleFigure1 = new RectangleFigure(
+        new Vector2(0.0f, -0.0f),
+        new Vector2(0.5f, -0.5f),
+        new Color(0.0f, 1.0f, 1.0f)
 );
 
 void initGL() {
@@ -27,7 +34,7 @@ void initGL() {
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
-    glBegin(GL_QUADS);
+    /*glBegin(GL_QUADS);
     {
         glColor3f(1.0f, 0.0f, 0.0f);
         glVertex2f(-0.8f, 0.1f);
@@ -50,7 +57,8 @@ void display() {
         glColor3f(1.0f, 1.0f, 1.0f); // White
         glVertex2f(-0.9f, -0.3f);
     }
-    glEnd();
+    glEnd();*/
+    rectangleFigure1->render();
 
 //    glBegin(GL_TRIANGLES);            // Each set of 3 vertices form a triangle
 //    {
@@ -70,17 +78,17 @@ void display() {
 
     triangleFigure1->render();
 
-    glBegin(GL_POLYGON);                // These vertices form a closed polygon
-    {
-        glColor3f(1.0f, 1.0f, 0.0f); // Yellow
-        glVertex2f(0.4f, 0.2f);
-        glVertex2f(0.6f, 0.2f);
-        glVertex2f(0.7f, 0.4f);
-        glVertex2f(0.6f, 0.6f);
-        glVertex2f(0.4f, 0.6f);
-        glVertex2f(0.3f, 0.4f);
-    }
-    glEnd();
+//    glBegin(GL_POLYGON);                // These vertices form a closed polygon
+//    {
+//        glColor3f(1.0f, 1.0f, 0.0f); // Yellow
+//        glVertex2f(0.4f, 0.2f);
+//        glVertex2f(0.6f, 0.2f);
+//        glVertex2f(0.7f, 0.4f);
+//        glVertex2f(0.6f, 0.6f);
+//        glVertex2f(0.4f, 0.6f);
+//        glVertex2f(0.3f, 0.4f);
+//    }
+//    glEnd();
 
     glFlush();  // Render now
 }
@@ -94,9 +102,9 @@ void keyboard(unsigned char key, int x, int y) {
 
 int main(int argc, char **argv) {
     /*triangleFigure1 = new TriangleFigure(
-            new Point(0.1f, -0.6f),
-            new Point(0.7f, -0.6f),
-            new Point(0.4f, -0.1f),
+            new Vector2(0.1f, -0.6f),
+            new Vector2(0.7f, -0.6f),
+            new Vector2(0.4f, -0.1f),
             new Color(0.0f, 0.0f, 1.0f)
     );*/
 

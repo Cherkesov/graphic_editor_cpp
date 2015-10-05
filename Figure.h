@@ -6,9 +6,21 @@
 #define GRAPHIC_EDITOR_CPP_FIGURE_H
 
 
+#include "Color.h"
+
 class Figure {
+protected:
+    Color *color;
 public:
     virtual void render() = 0;
+
+    Color *getColor() const {
+        return color;
+    }
+
+    void setColor(Color *color) {
+        Figure::color = color;
+    }
 };
 
 

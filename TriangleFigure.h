@@ -6,26 +6,27 @@
 #define GRAPHIC_EDITOR_CPP_TRIANGLEFIGURE_H
 
 #include "Figure.h"
-#include "Point.h"
+#include "Vector2.h"
 #include "Color.h"
 
 class TriangleFigure : Figure {
 public:
     TriangleFigure() {
-        this->color = new Color(0.5f, 0.5f, 0.5f);
+        this->setColor(new Color(0.5f, 0.5f, 0.5f));
     }
 
-    TriangleFigure(Point *point1, Point *point2, Point *point3, Color *color) :
-            point1(point1),
-            point2(point2),
-            point3(point3),
-            color(color) { }
-
-    TriangleFigure(Point *point1, Point *point2, Point *point3) :
+    TriangleFigure(Vector2 *point1, Vector2 *point2, Vector2 *point3, Color *color) :
             point1(point1),
             point2(point2),
             point3(point3) {
-        this->color = new Color(0.5f, 0.5f, 0.5f);
+        this->setColor(color);
+    }
+
+    TriangleFigure(Vector2 *point1, Vector2 *point2, Vector2 *point3) :
+            point1(point1),
+            point2(point2),
+            point3(point3) {
+        this->setColor(new Color(0.5f, 0.5f, 0.5f));
     }
 
     virtual ~TriangleFigure() {
@@ -38,10 +39,9 @@ public:
     virtual void render();
 
 private:
-    Point *point1;
-    Point *point2;
-    Point *point3;
-    Color *color;
+    Vector2 *point1;
+    Vector2 *point2;
+    Vector2 *point3;
 };
 
 #endif //GRAPHIC_EDITOR_CPP_TRIANGLEFIGURE_H

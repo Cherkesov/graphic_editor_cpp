@@ -6,15 +6,15 @@
 #define GRAPHIC_EDITOR_CPP_POINT_H
 
 
-class Point {
+class Vector2 {
 private:
     float x;
     float y;
 
 public:
-    Point() { }
+    Vector2() { }
 
-    Point(float _x, float _y) {
+    Vector2(float _x, float _y) {
         this->x = _x;
         this->y = _y;
     }
@@ -24,7 +24,7 @@ public:
     }
 
     void setX(float x) {
-        Point::x = x;
+        Vector2::x = x;
     }
 
     float getY() const {
@@ -32,7 +32,7 @@ public:
     }
 
     void setY(float y) {
-        Point::y = y;
+        Vector2::y = y;
     }
 };
 
