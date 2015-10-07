@@ -9,11 +9,14 @@
 #include <GL/glut.h>
 #include <GL/freeglut.h>
 #include <iostream>
+#include <sstream>
 
 #include "TriangleFigure.h"
 #include "RectangleFigure.h"
 
 using namespace std;
+
+Vector2 *mousePos = new Vector2();
 
 TriangleFigure *triangleFigure1 = new TriangleFigure(
         new Vector2(0.1f, -0.6f),
@@ -32,63 +35,21 @@ void initGL() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
 }
 
+void RenderString(float x, float y, void *font, const char *string) {
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glRasterPos2f(x, y);
+    glutBitmapString(font, (const unsigned char *) string);
+}
+
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
-    /*glBegin(GL_QUADS);
-    {
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex2f(-0.8f, 0.1f);
-        glVertex2f(-0.2f, 0.1f);
-        glVertex2f(-0.2f, 0.7f);
-        glVertex2f(-0.8f, 0.7f);
 
-        glColor3f(0.0f, 1.0f, 0.0f); // Green
-        glVertex2f(-0.7f, -0.6f);
-        glVertex2f(-0.1f, -0.6f);
-        glVertex2f(-0.1f, 0.0f);
-        glVertex2f(-0.7f, 0.0f);
-
-        glColor3f(0.2f, 0.2f, 0.2f); // Dark Gray
-        glVertex2f(-0.9f, -0.7f);
-        glColor3f(1.0f, 1.0f, 1.0f); // White
-        glVertex2f(-0.5f, -0.7f);
-        glColor3f(0.2f, 0.2f, 0.2f); // Dark Gray
-        glVertex2f(-0.5f, -0.3f);
-        glColor3f(1.0f, 1.0f, 1.0f); // White
-        glVertex2f(-0.9f, -0.3f);
-    }
-    glEnd();*/
     rectangleFigure1->render();
-
-//    glBegin(GL_TRIANGLES);            // Each set of 3 vertices form a triangle
-//    {
-//        glColor3f(0.0f, 0.0f, 1.0f); // Blue
-//        glVertex2f(0.1f, -0.6f);
-//        glVertex2f(0.7f, -0.6f);
-//        glVertex2f(0.4f, -0.1f);
-//
-//        glColor3f(1.0f, 0.0f, 0.0f); // Red
-//        glVertex2f(0.3f, -0.4f);
-//        glColor3f(0.0f, 1.0f, 0.0f); // Green
-//        glVertex2f(0.9f, -0.4f);
-//        glColor3f(0.0f, 0.0f, 1.0f); // Blue
-//        glVertex2f(0.6f, -0.9f);
-//    }
-//    glEnd();
-
     triangleFigure1->render();
 
-//    glBegin(GL_POLYGON);                // These vertices form a closed polygon
-//    {
-//        glColor3f(1.0f, 1.0f, 0.0f); // Yellow
-//        glVertex2f(0.4f, 0.2f);
-//        glVertex2f(0.6f, 0.2f);
-//        glVertex2f(0.7f, 0.4f);
-//        glVertex2f(0.6f, 0.6f);
-//        glVertex2f(0.4f, 0.6f);
-//        glVertex2f(0.3f, 0.4f);
-//    }
-//    glEnd();
+    ostringstream string1;
+    string1 << mousePos->getX() << ":" << mousePos->getY();
+    RenderString(0.5f, -0.8f, GLUT_BITMAP_TIMES_ROMAN_24,string1.str().c_str());
 
     glFlush();  // Render now
 }
@@ -100,20 +61,35 @@ void keyboard(unsigned char key, int x, int y) {
     }
 }
 
-int main(int argc, char **argv) {
-    /*triangleFigure1 = new TriangleFigure(
-            new Vector2(0.1f, -0.6f),
-            new Vector2(0.7f, -0.6f),
-            new Vector2(0.4f, -0.1f),
-            new Color(0.0f, 0.0f, 1.0f)
-    );*/
+void mouse(int button, int state, int x, int y) {
+    //GLUT_LEFT_BUTTON
+    //GLUT_RIGHT_BUTTON
+    //GLUT_MIDDLE_BUTTON
 
+    //GLUT_DOWN
+    //GLUT_UP
+}
+
+void mouseMotion(int x, int y) {
+    mousePos->setX(x);
+    mousePos->setY(y);
+}
+
+int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitWindowSize(800, 600);
     glutInitWindowPosition(150, 150);
     glutCreateWindow("Vertex, Primitive & Color");
+
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
+    glutIdleFunc(display);
+
+    glutMouseFunc(mouse);
+
+    glutMotionFunc(mouseMotion);
+    glutPassiveMotionFunc(mouseMotion);
+
     initGL();
     glutMainLoop();
     return 0;
