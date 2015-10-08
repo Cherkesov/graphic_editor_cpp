@@ -22,9 +22,9 @@ using namespace std;
 Vector2 *mousePos = new Vector2();
 
 TriangleFigure *triangleFigure1 = new TriangleFigure(
-        new Vector2(0.1f, -0.6f),
-        new Vector2(0.7f, -0.6f),
-        new Vector2(0.4f, -0.1f),
+        new Vector2(600, 400),
+        new Vector2(700, 500),
+        new Vector2(500, 500),
         new Color(0.0f, 0.0f, 1.0f)
 );
 
@@ -36,8 +36,8 @@ TriangleFigure *triangleFigure2 = new TriangleFigure(
 );
 
 RectangleFigure *rectangleFigure1 = new RectangleFigure(
-        new Vector2(0.0f, -0.0f),
-        new Vector2(0.5f, -0.5f),
+        new Vector2(400, 400),
+        new Vector2(50, 50),
         new Color(0.0f, 1.0f, 1.0f)
 );
 
