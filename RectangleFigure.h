@@ -8,7 +8,7 @@
 #include "Vector2.h"
 #include "Figure.h"
 
-class RectangleFigure: Figure {
+class RectangleFigure : Figure {
 public:
     RectangleFigure() {
         this->topLeftPoint = new Vector2(0, 0);
@@ -28,7 +28,22 @@ public:
         delete this->color;
     }
 
-    virtual void render();
+    void render() {
+        glBegin(GL_QUADS);
+        {
+            glColor3f(
+                    this->getColor()->getRed(),
+                    this->getColor()->getGreen(),
+                    this->getColor()->getBlue()
+            );
+            glVertex2f(this->topLeftPoint->getX(), this->topLeftPoint->getY());
+            glVertex2f(this->topLeftPoint->getX() + this->size->getX(), this->topLeftPoint->getY());
+            glVertex2f(this->topLeftPoint->getX() + this->size->getX(),
+                       this->topLeftPoint->getY() + this->size->getY());
+            glVertex2f(this->topLeftPoint->getX(), this->topLeftPoint->getY() + this->size->getY());
+        }
+        glEnd();
+    }
 
 private:
     Vector2 *topLeftPoint;

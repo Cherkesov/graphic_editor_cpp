@@ -1,5 +1,8 @@
 #define GLUT_DISABLE_ATEXIT_HACK
 
+static const int WINDOW_WIDTH = 800;
+static const int WINDOW_HEIGHT = 600;
+
 #ifdef _WIN32
 
 #include <windows.h>
@@ -25,6 +28,13 @@ TriangleFigure *triangleFigure1 = new TriangleFigure(
         new Color(0.0f, 0.0f, 1.0f)
 );
 
+TriangleFigure *triangleFigure2 = new TriangleFigure(
+        new Vector2(100, 100),
+        new Vector2(200, 100),
+        new Vector2(100, 200),
+        new Color(0.0f, 0.0f, 1.0f)
+);
+
 RectangleFigure *rectangleFigure1 = new RectangleFigure(
         new Vector2(0.0f, -0.0f),
         new Vector2(0.5f, -0.5f),
@@ -44,12 +54,17 @@ void RenderString(float x, float y, void *font, const char *string) {
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+
     rectangleFigure1->render();
     triangleFigure1->render();
+    triangleFigure2->render();
 
     ostringstream string1;
     string1 << mousePos->getX() << ":" << mousePos->getY();
-    RenderString(0.5f, -0.8f, GLUT_BITMAP_TIMES_ROMAN_24,string1.str().c_str());
+    RenderString(10, 590, GLUT_BITMAP_TIMES_ROMAN_24, string1.str().c_str());
 
     glFlush();  // Render now
 }
@@ -77,7 +92,8 @@ void mouseMotion(int x, int y) {
 
 int main(int argc, char **argv) {
     glutInit(&argc, argv);
-    glutInitWindowSize(800, 600);
+    glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
     glutInitWindowPosition(150, 150);
     glutCreateWindow("Vertex, Primitive & Color");
 

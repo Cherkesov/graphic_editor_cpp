@@ -3,7 +3,7 @@ project(graphic_editor_cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
 
-set(SOURCE_FILES main.cpp Figure.cpp Figure.h TriangleFigure.cpp TriangleFigure.h Vector2.cpp Vector2.h Color.cpp Color.h RectangleFigure.cpp RectangleFigure.h)
+set(SOURCE_FILES main.cpp Figure.h TriangleFigure.h Vector2.h Color.h RectangleFigure.h)
 add_executable(graphic_editor_cpp ${SOURCE_FILES})
 
 ADD_DEFINITIONS(
