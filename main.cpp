@@ -15,18 +15,22 @@ static const int WINDOW_HEIGHT = 600;
 #include <sstream>
 #include <list>
 
-#include "TriangleFigure.h"
-#include "RectangleFigure.h"
-#include "CircleFigure.h"
+#include "figure/RectangleFigure.h"
+#include "figure/CircleFigure.h"
+#include "tool/AbstractTool.h"
+#include "tool/PencilTool.h"
 
 using namespace std;
 
 
-list<Figure*> figures;
+list<AbstractFigure *> figures;
+
+
+AbstractTool *currentTool = new PencilTool(figures);
+
 
 Vector2 *mousePos = new Vector2();
 
-bool leftBtnPressed = false;
 
 void RenderString(float x, float y, void *font, const char *str) {
     glColor3f(1.0f, 0.0f, 0.0f);
@@ -45,10 +49,11 @@ void displayFunc() {
     glLoadIdentity();
     gluOrtho2D(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 
-    list<Figure*>::iterator it;
+    list<AbstractFigure *>::iterator it;
     for (it = figures.begin(); it != figures.end(); ++it) {
         (*it)->render();
     }
+    currentTool->getFigure()->render();
 
     ostringstream string1;
     string1 << mousePos->getX() << ":" << mousePos->getY();
@@ -58,10 +63,13 @@ void displayFunc() {
 }
 
 // Keyboard method to allow ESC key to quit
-void keyboardFunc(unsigned char key, int x, int y) {
+void keyboardHandler(unsigned char key, int x, int y) {
     if (key == 27) {
         glutLeaveMainLoop();
+        return;
     }
+
+    currentTool->keyboardHandler(key, x, y);
 }
 
 void mouseHandler(int button, int state, int x, int y) {
@@ -72,8 +80,15 @@ void mouseHandler(int button, int state, int x, int y) {
     //GLUT_DOWN
     //GLUT_UP
 
-    if (GLUT_LEFT_BUTTON == button) {
-        leftBtnPressed = (GLUT_DOWN == state);
+    currentTool->setDrawingEnabled(
+            GLUT_LEFT_BUTTON == button
+            && GLUT_DOWN == state
+    );
+
+    currentTool->mouseHandler(button, state, x, y);
+
+    if (NULL != currentTool && GLUT_LEFT_BUTTON == button && GLUT_UP == state) {
+        figures.push_back(currentTool->getFigure());
     }
 }
 
@@ -81,13 +96,15 @@ void mouseMotionHandler(int x, int y) {
     mousePos->setX(x);
     mousePos->setY(y);
 
-    if (leftBtnPressed) {
+    currentTool->mouseMotionHandler(x, y);
+
+    /*if (leftBtnPressed) {
         figures.push_back(new CircleFigure(
                 new Vector2(x, y),
                 1,
                 new Color(1.0f, 1.0f, 1.0f)
         ));
-    }
+    }*/
 }
 
 int main(int argc, char **argv) {
@@ -131,7 +148,7 @@ int main(int argc, char **argv) {
     glutDisplayFunc(displayFunc);
     glutIdleFunc(displayFunc); // Чтоб перерисовывать картинку по время простоя
 
-    glutKeyboardFunc(keyboardFunc);
+    glutKeyboardFunc(keyboardHandler);
 
     glutMouseFunc(mouseHandler);
 

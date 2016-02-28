@@ -5,18 +5,18 @@
 #ifndef GRAPHIC_EDITOR_CPP_CIRCLEFIGURE_H
 #define GRAPHIC_EDITOR_CPP_CIRCLEFIGURE_H
 
-#include "Figure.h"
-#include "Vector2.h"
+#include "AbstractFigure.h"
+#include "../Vector2.h"
 #include <math.h>
 
 #define PI 3.1415926535897932384626433832795
 
-class CircleFigure : public Figure {
+class CircleFigure : public AbstractFigure {
 public:
     CircleFigure(Vector2 *point, float radius, Color *color) {
         this->point = point;
         this->radius = radius;
-        this->setColor(color);
+        this->setFillColor(color);
     }
 
     void render() {
@@ -25,7 +25,7 @@ public:
             glColor3f(
                     this->getColor()->getRed(),
                     this->getColor()->getGreen(),
-                    this->getColor()->getBlue()
+                    this->getFillColor()->getBlue()
             );
             glVertex2f(this->point->getX(), this->point->getY());
         }
@@ -33,9 +33,9 @@ public:
 
         glBegin(GL_POLYGON);
         glColor3f(
-                this->getColor()->getRed(),
-                this->getColor()->getGreen(),
-                this->getColor()->getBlue()
+                this->getFillColor()->getRed(),
+                this->getFillColor()->getGreen(),
+                this->getFillColor()->getBlue()
         );
 
         //Change the 6 to 12 to increase the steps (number of drawn points) for a smoother circle
@@ -50,8 +50,8 @@ public:
         //The number of sides is always twice the value given this range
         for (double i = 0; i < 2 * PI; i += PI / 6) //<-- Change this Value
             glVertex2f(
-                    this->point->getX() + cos(i) * this->radius,
-                    this->point->getY() + sin(i) * radius
+                    (GLfloat) (this->point->getX() + cos(i) * this->radius),
+                    (GLfloat) (this->point->getY() + sin(i) * this->radius)
             );
         glEnd();
     }
