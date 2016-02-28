@@ -9,7 +9,7 @@
 #include "Vector2.h"
 #include "Color.h"
 
-class TriangleFigure : Figure {
+class TriangleFigure : public Figure {
 public:
     TriangleFigure() {
         this->setColor(new Color(0.5f, 0.5f, 0.5f));

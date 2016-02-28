@@ -8,7 +8,7 @@
 #include "Vector2.h"
 #include "Figure.h"
 
-class RectangleFigure : Figure {
+class RectangleFigure : public Figure {
 public:
     RectangleFigure() {
         this->topLeftPoint = new Vector2(0, 0);
