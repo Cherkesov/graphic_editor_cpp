@@ -5,17 +5,12 @@
 #ifndef GRAPHIC_EDITOR_CPP_PENCILTOOL_H
 #define GRAPHIC_EDITOR_CPP_PENCILTOOL_H
 
+
 #include "AbstractTool.h"
 #include "../figure/PolyLineFigure.h"
 
 class PencilTool : public AbstractTool {
-
 public:
-    PencilTool(const std::list<AbstractFigure *> &canvasContent) :
-            AbstractTool(canvasContent) {
-        line = new PolyLineFigure();
-    }
-
     virtual void mouseHandler(int button, int state, int x, int y);
 
     virtual void mouseMotionHandler(int x, int y);

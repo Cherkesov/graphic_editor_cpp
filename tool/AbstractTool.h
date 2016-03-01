@@ -9,8 +9,7 @@
 
 class AbstractTool {
 public:
-    AbstractTool(const std::list<AbstractFigure *> &canvasContent) :
-            canvasContent(canvasContent),
+    AbstractTool() :
             drawingEnabled(false) { }
 
     // Check mouse buttons for press/release
@@ -30,7 +29,6 @@ public:
     void setDrawingEnabled(bool drawingEnabled) { AbstractTool::drawingEnabled = drawingEnabled; }
 
 protected:
-    std::list<AbstractFigure *> canvasContent;
     bool drawingEnabled;
 };
 

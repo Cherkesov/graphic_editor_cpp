@@ -16,9 +16,10 @@ static const int WINDOW_HEIGHT = 600;
 #include <list>
 
 #include "figure/RectangleFigure.h"
-#include "figure/CircleFigure.h"
+
 #include "tool/AbstractTool.h"
 #include "tool/PencilTool.h"
+#include "tool/StraightLineTool.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ using namespace std;
 list<AbstractFigure *> figures;
 
 
-AbstractTool *currentTool = new PencilTool(figures);
+AbstractTool *currentTool = new StraightLineTool();
 
 
 Vector2 *mousePos = new Vector2();
@@ -53,11 +54,13 @@ void displayFunc() {
     for (it = figures.begin(); it != figures.end(); ++it) {
         (*it)->render();
     }
-    currentTool->getFigure()->render();
+
+    if (NULL != currentTool->getFigure())
+        currentTool->getFigure()->render();
 
     ostringstream string1;
     string1 << mousePos->getX() << ":" << mousePos->getY();
-    RenderString(10, 590, GLUT_BITMAP_TIMES_ROMAN_24, string1.str().c_str());
+    RenderString(10, WINDOW_HEIGHT - 10, GLUT_BITMAP_TIMES_ROMAN_24, string1.str().c_str());
 
     glFlush(); // Render now
 }
@@ -73,13 +76,6 @@ void keyboardHandler(unsigned char key, int x, int y) {
 }
 
 void mouseHandler(int button, int state, int x, int y) {
-    //GLUT_LEFT_BUTTON
-    //GLUT_RIGHT_BUTTON
-    //GLUT_MIDDLE_BUTTON
-
-    //GLUT_DOWN
-    //GLUT_UP
-
     currentTool->setDrawingEnabled(
             GLUT_LEFT_BUTTON == button
             && GLUT_DOWN == state
@@ -97,48 +93,9 @@ void mouseMotionHandler(int x, int y) {
     mousePos->setY(y);
 
     currentTool->mouseMotionHandler(x, y);
-
-    /*if (leftBtnPressed) {
-        figures.push_back(new CircleFigure(
-                new Vector2(x, y),
-                1,
-                new Color(1.0f, 1.0f, 1.0f)
-        ));
-    }*/
 }
 
 int main(int argc, char **argv) {
-
-    /*figures.push_back(new TriangleFigure(
-            new Vector2(600, 400),
-            new Vector2(700, 500),
-            new Vector2(500, 500),
-            new Color(0.0f, 0.0f, 1.0f)
-    ));
-    figures.push_back(new TriangleFigure(
-            new Vector2(100, 100),
-            new Vector2(200, 100),
-            new Vector2(100, 200),
-            new Color(0.0f, 0.0f, 1.0f)
-    ));*/
-    /*figures.push_back(new RectangleFigure(
-            new Vector2(400, 400),
-            new Vector2(50, 50),
-            new Color(0.0f, 1.0f, 1.0f)
-    ));
-    figures.push_back(new CircleFigure(
-            new Vector2(100, 100),
-            1,
-            new Color(0.0f, 1.0f, 1.0f)
-    ));
-    figures.push_back(new CircleFigure(
-            new Vector2(200, 200),
-            1,
-            new Color(0.0f, 1.0f, 1.0f)
-    ));*/
-
-
-
     glutInit(&argc, argv);
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
